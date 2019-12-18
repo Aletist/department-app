@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <link rel="stylesheet" href="stylesheet.css">
+    <link rel="stylesheet" href="elusive-icons/css/elusive-icons.min.css">
+    <meta charset="UTF-8">
+    <title>Employees filter</title>
+</head>
+<body>
+<div style="width: min-content; margin: auto;">
+    <div class="card">
+        <header style="text-align: center; background-color: #eeeeee;">
+            <h3>Employees</h3>
+        </header>
+        <div>
+            <div class="flex two">
+                <div style=" padding-bottom: 0">
+                    <a class="pseudo button" href="departments.html">Departments</a>
+                    <a class="pseudo button active" href="employees.html" >Employees</a>
+                </div>
+                <div align="right" style="padding-bottom: 0">
+                    <label>
+                        <input type="checkbox" checked>
+                        <span class="pseudo toggle button"><i class="el el-filter el-lg"></i></span>
+                    </label>
+                    <button class="success">Add <i class="el el-plus"></i></button>
+                </div>
+            </div>
+        </div>
+        <div class="card">
+            <h2 style="text-align: center">Filter by:</h2>
+            <div class="flex">
+                <div class="three-fourth">
+                    <p style="white-space: nowrap; text-align: right">
+                        Birth date from:
+                        <input type="date" style="width: 15ch">
+                        to:
+                        <input type="date" style="width: 15ch">
+                    </p>
+                    <p style="white-space: nowrap; text-align: right">
+                        Hire date from:
+                        <input type="date" style="width: 15ch">
+                        to:
+                        <input type="date" style="width: 15ch">
+                    </p>
+                    <p style="white-space: nowrap; text-align: right">
+                        Salary from:
+                        <input type="number" style="width: 15ch">
+                        to:
+                        <input type="number" style="width: 15ch">
+                    </p>
+                </div>
+            </div>
+            <div align="center">
+                <button class="pseudo"><i class="el el-repeat"></i></button>
+                <button class="pseudo"><i class="el el-ok"></i></button>
+            </div>
+        </div>
+    </div>
+    <table>
+        <thead>
+        <tr>
+            <th>ID</th>
+            <th>First Name</th>
+            <th>Last Name</th>
+            <th>Department</th>
+            <th>Salary</th>
+            <th>Birth date</th>
+            <th>Hire date</th>
+            <th></th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr>
+            <td>12345</td>
+            <td>Michael</td>
+            <td>Payne</td>
+            <td>IT</td>
+            <td>$1200</td>
+            <td>10.06.1980</td>
+            <td>07.03.2012</td>
+            <td style="white-space: nowrap; padding: 0">
+                <button class="pseudo"><i class="el el-pencil"></i></button>
+                <label for="modal_1" class="button pseudo"><i class="el el-trash"></i></label>
+            </td>
+        </tr>
+        <tr>
+            <td>54321</td>
+            <td>Jonathan</td>
+            <td>Miles</td>
+            <td>Sales</td>
+            <td>$1100</td>
+            <td>06.10.1990</td>
+            <td>01.02.2018</td>
+            <td style="white-space: nowrap; padding: 0">
+                <button class="pseudo"><i class="el el-pencil"></i></button>
+                <label for="modal_1" class="button pseudo"><i class="el el-trash"></i></label>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+    <div class="modal">
+        <input id="modal_1" type="checkbox"/>
+        <label for="modal_1" class="overlay"></label>
+        <article>
+            <header>
+                <h3>Confirmation</h3>
+                <label for="modal_1" class="close">&times;</label>
+            </header>
+            <section class="content">
+                Are you sure you want delete (fire) employee?
+            </section>
+            <footer>
+                <label class="button dangerous" style="float: left">Delete</label>
+                <label for="modal_1" class="button" style="float: right">
+                    Cancel
+                </label>
+            </footer>
+        </article>
+    </div>
+</div>
+</body>
+</html>

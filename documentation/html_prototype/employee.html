@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <link rel="stylesheet" href="stylesheet.css">
+    <link rel="stylesheet" href="elusive-icons/css/elusive-icons.min.css">
+    <meta charset="UTF-8">
+    <title>Employee</title>
+</head>
+<body>
+<div style="width: min-content; margin: auto;">
+    <div class="card">
+        <header style="text-align: center; background-color: #eeeeee;">
+            <h3>Employee</h3>
+        </header>
+        <div>
+            <div class="flex two">
+                <div style=" padding-bottom: 0">
+                    <a class="pseudo button" href="departments.html">Departments</a>
+                    <a class="pseudo button active" href="employees.html" >Employees</a>
+                </div>
+                <div align="right" style="padding-bottom: 0">
+
+                    <label for="modal_edit" class="button">Edit <i class="el el-pencil"></i></label>
+                </div>
+            </div>
+        </div>
+        <div style="width: 600px; background-color: #eeeeee; padding-left: 1ch">
+            <div class="flex two">
+
+                <div style="width: 300px;">
+                    <h4>ID: 12345</h4>
+                    <h4>First name: Michael</h4>
+                    <h4>Last name: Payne</h4>
+                    <h4>Birth date: 10.06.1980</h4>
+                </div>
+                <div style="width: 300px;">
+
+                    <h4>Hire date: 07.03.2012</h4>
+                    <h4>Department: IT</h4>
+                    <h4>Salary: $1200</h4>
+
+                </div>
+            </div>
+
+        </div>
+        <div class="modal">
+            <input id="modal_edit" type="checkbox"/>
+            <label for="modal_edit" class="overlay"></label>
+            <article>
+                <header>
+                    <h3>Edit department</h3>
+                    <label for="modal_edit" class="close">&times;</label>
+                </header>
+                <section style="width: 25em">
+                    <div class="flex two">
+                        <div>
+                            <label>
+                                <input type="text" placeholder="First name">
+                            </label>
+                            <p>Birth date:<input type="date"></p>
+                            <select>
+                                <option>Select department</option>
+                                <option>department A</option>
+                                <option>department B</option>
+                            </select>
+                        </div>
+                        <div>
+                            <label>
+                                <input type="text" placeholder="Last name">
+                            </label>
+                            <p>Hire date:<input type="date"></p>
+                            <label>
+                                <input type="number" min="0" placeholder="Salary">
+                            </label>
+                        </div>
+                    </div>
+
+                </section>
+                <footer>
+                    <button class="success">Accept</button>
+                    <label for="modal_edit" class="button dangerous">
+                        Cancel
+                    </label>
+                </footer>
+            </article>
+        </div>
+    </div>
+</div>
+</body>
+</html>

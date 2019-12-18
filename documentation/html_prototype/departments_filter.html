@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <link rel="stylesheet" href="stylesheet.css">
+    <link rel="stylesheet" href="elusive-icons/css/elusive-icons.min.css">
+    <meta charset="UTF-8">
+    <title>Departments filter</title>
+</head>
+<body>
+<div style="width: min-content; margin: auto;">
+    <div class="card">
+        <header style="text-align: center; background-color: #eeeeee;">
+            <h3>Departments</h3>
+        </header>
+        <div>
+            <div class="flex two">
+                <div style=" padding-bottom: 0">
+                    <a class="pseudo button active" href="departments.html">Departments</a>
+                    <a class="pseudo button" href="employees.html">Employees</a>
+                </div>
+                <div align="right" style="padding-bottom: 0">
+                    <a href="departments.html" class="pseudo button active"><i class="el el-filter el-lg"></i></a>
+                    <a href="dapartment_add.html" class="success button">Add <i class="el el-plus"></i></a>
+                </div>
+            </div>
+        </div>
+        <div class="card">
+            <h2 style="text-align: center">Filter by:</h2>
+            <p style="white-space: nowrap; text-align: right">
+                Employees from:
+                <input type="number" style="width: 15ch">
+                to:
+                <input type="number" style="width: 15ch">
+            </p>
+            <p style="white-space: nowrap; text-align: right">
+                Average salary from:
+                <input type="number" style="width: 15ch">
+                to:
+                <input type="number" style="width: 15ch">
+            </p>
+            <div align="center">
+                <a href="departments.html" class="pseudo button"><i class="el el-repeat"></i></a>
+                <a href="departments.html" class="pseudo button"><i class="el el-ok"></i></a>
+            </div>
+        </div>
+    </div>
+
+    <table>
+        <thead>
+        <tr>
+            <th>Name</th>
+            <th>Head</th>
+            <th>Number of employees</th>
+            <th>Average salary</th>
+            <th></th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr>
+            <td>IT</td>
+            <td>Payne</td>
+            <td>42</td>
+            <td>$1200</td>
+            <td style="white-space: nowrap; padding: 0">
+                <a href="department.html" class="pseudo button"><i class="el el-pencil"></i></a>
+                <label for="modal_1" class="button pseudo"><i class="el el-trash"></i></label>
+            </td>
+        </tr>
+        <tr>
+            <td>Sales</td>
+            <td>Jones</td>
+            <td>20</td>
+            <td>$1100</td>
+            <td style="white-space: nowrap; padding: 0">
+                <a href="department.html" class="pseudo button"><i class="el el-pencil"></i></a>
+                <label for="modal_1" class="button pseudo"><i class="el el-trash"></i></label>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+    <div class="modal">
+        <input id="modal_1" type="checkbox"/>
+        <label for="modal_1" class="overlay"></label>
+        <article>
+            <header>
+                <h3>Confirmation</h3>
+                <label for="modal_1" class="close">&times;</label>
+            </header>
+            <section class="content">
+                Are you sure you want to delete department? All employees will be kept in unassigned category
+            </section>
+            <footer>
+                <label class="button dangerous" style="float: left">Delete</label>
+                <label for="modal_1" class="button" style="float: right">
+                    Cancel
+                </label>
+            </footer>
+        </article>
+    </div>
+</div>
+</body>
+</html>

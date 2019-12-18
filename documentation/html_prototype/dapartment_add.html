@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <link rel="stylesheet" href="stylesheet.css">
+    <link rel="stylesheet" href="elusive-icons/css/elusive-icons.min.css">
+    <meta charset="UTF-8">
+    <title>Add department</title>
+</head>
+<body>
+<div style="width: min-content; margin: auto;">
+    <div class="card">
+        <header style="text-align: center; background-color: #eeeeee;">
+            <h3>Add department</h3>
+        </header>
+        <div>
+            <div class="flex two">
+                <div style=" padding-bottom: 0">
+                    <a class="pseudo button active" href="departments.html">Departments</a>
+                    <a class="pseudo button" href="employees.html" >Employees</a>
+                </div>
+                <div align="right" style="padding-bottom: 0">
+                    <a href="departments.html"  class="error button">Cancel</i></a>
+                    <a href="departments.html" class="success button">Save</i></a>
+                </div>
+            </div>
+        </div>
+        <div class="card" style=" padding: 0 2em">
+            <h1 style="text-align: center">New department:</h1>
+            <p style="white-space: nowrap; text-align: right">
+                Department name:
+                <input type="text" style="width: 30ch">
+
+            </p>
+            <p style="white-space: nowrap; text-align: right">
+                Department head:
+                <select style="width: 30ch">
+                    <option>Unassigned</option>
+                    <option>Some guy with no department A</option>
+                    <option>Some guy with no department B</option>
+                </select>
+            </p>
+            <p style="white-space: nowrap; text-align: right">
+                Department head salary:
+                <input type="number" style="width: 15ch">
+            </p>
+        </div>
+    </div>
+</div>
+</body>
+</html>

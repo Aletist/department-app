@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <link rel="stylesheet" href="stylesheet.css">
+    <link rel="stylesheet" href="elusive-icons/css/elusive-icons.min.css">
+    <meta charset="UTF-8">
+    <title>Department</title>
+</head>
+<body>
+<div style="width: min-content; margin: auto;">
+    <div class="card">
+        <header style="text-align: center; background-color: #eeeeee;">
+            <h3>Department</h3>
+        </header>
+        <div>
+            <div class="flex two">
+                <div style=" padding-bottom: 0">
+                    <a class="pseudo button active" href="departments.html">Departments</a>
+                    <a class="pseudo button" href="employees.html" >Employees</a>
+                </div>
+                <div align="right" style="padding-bottom: 0">
+
+                    <label for="modal_edit" class="button">Edit <i class="el el-pencil"></i></label>
+                </div>
+            </div>
+        </div>
+        <div style="background-color: #eeeeee">
+            <h4>Department name: IT</h4>
+            <h4>Department head: Michael Payne</h4>
+        </div>
+        <div class="modal">
+            <input id="modal_edit" type="checkbox"/>
+            <label for="modal_edit" class="overlay"></label>
+            <article>
+                <header>
+                    <h3>Edit department</h3>
+                    <label for="modal_edit" class="close">&times;</label>
+                </header>
+                <section style="width: 25em">
+                    <label>
+                        <input type="text" placeholder="Department name">
+                    </label>
+                    <select>
+                        <option>Select department head</option>
+                        <option>Some guy with no department A</option>
+                        <option>Some guy with no department B</option>
+                        <option>Some guy from this department A</option>
+                        <option>Some guy from this department B</option>
+                    </select>
+                    <label>
+                        <input type="number" min="0" placeholder="Department head`s salary">
+                    </label>
+                </section>
+                <footer>
+                    <button class="success">Accept</button>
+                    <label for="modal_edit" class="button dangerous">
+                        Cancel
+                    </label>
+                </footer>
+            </article>
+        </div>
+    </div>
+    <table>
+        <thead>
+        <tr>
+            <th>ID</th>
+            <th>First Name</th>
+            <th>Last Name</th>
+            <th>Salary</th>
+            <th>Birth date</th>
+            <th>Hire date</th>
+            <th></th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr>
+            <td>12345</td>
+            <td>Michael</td>
+            <td>Payne</td>
+            <td>$1200</td>
+            <td>10.06.1980</td>
+            <td>07.03.2012</td>
+            <td style="white-space: nowrap; padding: 0">
+                <a href="employee.html" class="pseudo button"><i class="el el-pencil"></i></a>
+                <label for="modal_1" class="button pseudo"><i class="el el-remove-circle"></i></label>
+            </td>
+        </tr>
+        <tr>
+            <td>54321</td>
+            <td>Jonathan</td>
+            <td>Miles</td>
+            <td>$1100</td>
+            <td>06.10.1990</td>
+            <td>01.02.2018</td>
+            <td style="white-space: nowrap; padding: 0">
+                <a href="employee.html" class="pseudo button"><i class="el el-pencil"></i></a>
+                <label for="modal_1" class="button pseudo"><i class="el el-remove-circle"></i></label>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+    <div class="modal">
+        <input id="modal_1" type="checkbox"/>
+        <label for="modal_1" class="overlay"></label>
+        <article>
+            <header>
+                <h3>Confirmation</h3>
+                <label for="modal_1" class="close">&times;</label>
+            </header>
+            <section class="content">
+                Are you sure you want remove employee from department?
+            </section>
+            <footer>
+                <label class="button dangerous" style="float: left">Remove</label>
+                <label for="modal_1" class="button" style="float: right">
+                    Cancel
+                </label>
+            </footer>
+        </article>
+    </div>
+</div>
+</body>
+</html>
