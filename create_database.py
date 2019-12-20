@@ -7,9 +7,9 @@ if __name__ == '__main__':
     databaseUserPassword = ""  # Password for the database user
     newDatabaseName = "dept_db"  # Name of the database that is to be created
     charSet = "utf8mb4"  # Character set
-    cusrorType = pymysql.cursors.DictCursor
+    cursorType = pymysql.cursors.DictCursor
     connectionInstance = pymysql.connect(host=databaseServerIP, user=databaseUserName, password=databaseUserPassword,
-                                         charset=charSet, cursorclass=cusrorType)
+                                         charset=charSet, cursorclass=cursorType)
 
     try:
         # Create a cursor object
@@ -24,8 +24,8 @@ if __name__ == '__main__':
         cursorInsatnce.execute(sqlQuery)
         # Fetch all the rows
         databaseList = cursorInsatnce.fetchall()
-        for datatbase in databaseList:
-            print(datatbase)
+        for database in databaseList:
+            print(database)
 
 
     except Exception as e:

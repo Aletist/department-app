@@ -10,9 +10,13 @@ install:
   - pip install -r requirements.txt
   - pip install pylint
   - pip install coveralls
-  - python create_database.py
 
 script:
+  - python create_database.py
+  - python models/models.py db init
+  - python models/models.py db migrate
+  - python models/models.py db update
+  - python seed.py
   - echo "skipping tests"
 
 after_success:
