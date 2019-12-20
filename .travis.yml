@@ -1,7 +1,10 @@
 language: python
 
 python:
-    - 3.7
+  - 3.7
+
+services:
+  - mysql
 
 install:
   - pip install -r requirements.txt
@@ -9,7 +12,12 @@ install:
   - pip install coveralls
 
 script:
-- echo "skipping tests"
+  - python create_database.py
+  - python models/models.py db init
+  - python models/models.py db migrate
+  - python models/models.py db upgrade
+  - python seed.py
+  - echo "skipping tests"
 
 after_success:
   - coveralls
