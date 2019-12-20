@@ -15,7 +15,7 @@ script:
   - python create_database.py
   - python models/models.py db init
   - python models/models.py db migrate
-  - python models/models.py db update
+  - python models/models.py db upgrade
   - python seed.py
   - echo "skipping tests"
 
