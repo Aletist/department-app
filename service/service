@@ -1,0 +1,13 @@
+from flask_restful import Api
+from rest.resources import *
+from service.commons import app
+
+api = Api(app)
+
+api.add_resource(DepartmentRes, '/departments/<name>')
+api.add_resource(DepartmentList, '/departments/')
+api.add_resource(EmployeeRes, '/employees/<id>')
+api.add_resource(EmployeeList, '/employees/')
+
+if __name__ == '__main__':
+    app.run()
