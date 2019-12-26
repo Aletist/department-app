@@ -17,7 +17,7 @@ script:
   - python db_setup.py db migrate
   - python db_setup.py db upgrade
   - python db_setup.py seed
-  - python service/service.py
+  - python service/webservice.py
   - python -m unittest discover
   - coverage run --source=service tests
 
