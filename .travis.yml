@@ -10,14 +10,14 @@ install:
   - pip install -r requirements.txt
   - pip install pylint
   - pip install coveralls
-
-script:
   - python db_setup.py add_db
   - python db_setup.py db init
   - python db_setup.py db migrate
   - python db_setup.py db upgrade
   - python db_setup.py seed
   - python service/webservice.py
+
+script:
   - python -m unittest discover
   - coverage run --source=service tests
 
