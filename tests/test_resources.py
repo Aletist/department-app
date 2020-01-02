@@ -67,7 +67,3 @@ class ResourcesTest(unittest.TestCase):
         with self.subTest('reaing nonexistent employee'):
             r = client.get(URL + id)
             self.assertEqual(r.status_code, 404)
-
-
-if __name__ == '__main__':
-    unittest.main()
