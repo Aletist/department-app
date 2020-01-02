@@ -6,7 +6,7 @@ from models.models import Employee, Department, serialize_dept
 from service.commons import db
 
 
-class DepartmentRes(Resource):
+class Dept(Resource):
 
     def get(self, name):
         query = db.session.query(Department.name).outerjoin(
@@ -17,8 +17,10 @@ class DepartmentRes(Resource):
         ).filter(
             Department.name == name
         )
-        result = serialize_dept(query.first())
-        return jsonify(result)
+        result = query.first()
+        if result[0] is None:
+            return '', 404
+        return jsonify(serialize_dept(result))
 
     def put(self, name):
         parser = reqparse.RequestParser()
@@ -36,7 +38,7 @@ class DepartmentRes(Resource):
         return '', 204
 
 
-class DepartmentList(Resource):
+class DeptList(Resource):
     def get(self):
         query = db.session.query(Department.name).outerjoin(
             Employee, Employee.department == Department.name
@@ -51,16 +53,19 @@ class DepartmentList(Resource):
         parser = reqparse.RequestParser()
         parser.add_argument('name', type=str)
         args = parser.parse_args()
+        dept = Department.query.get(args['name'])
+        if dept is not None:
+            return 'department {} already exists'.format(args['name']), 409
         db.session.add(Department(name=args['name']))
         db.session.commit()
-        dept = Department.query.get(args['name'])
-        print(dept.name)
         return args['name'], 201
 
 
-class EmployeeRes(Resource):
+class Emp(Resource):
     def get(self, id):
         employee = Employee.query.get(id)
+        if employee is None:
+            return '', 404
         return jsonify(employee.serialize())
 
     def put(self, id):
@@ -74,13 +79,13 @@ class EmployeeRes(Resource):
         parser.add_argument('salary', type=int)
 
         args = {k: v for k, v in parser.parse_args().items() if v is not None}
-        print(args)
 
         employee = Employee.query.get(id)
-        print(employee.serialize())
+        if employee is None:
+            return '', 404
+
         for key in args:
             setattr(employee, key, args[key])
-        print(employee.serialize())
         db.session.commit()
 
         return '', 200
@@ -92,7 +97,7 @@ class EmployeeRes(Resource):
         return '', 204
 
 
-class EmployeeList(Resource):
+class EmpList(Resource):
 
     def get(self):
         department = request.args.get('department', None)
