@@ -12,12 +12,12 @@ install:
   - pip install coveralls
 
 script:
-  - python create_database.py
-  - python models/models.py db init
-  - python models/models.py db migrate
-  - python models/models.py db upgrade
-  - python seed.py
-  - echo "skipping tests"
+  - python db_setup.py add_db
+  - python db_setup.py db init
+  - python db_setup.py db migrate
+  - python db_setup.py db upgrade
+  - python db_setup.py seed
+  - coverage run --omit '*/lib/*' -m unittest discover
 
 after_success:
   - coveralls
