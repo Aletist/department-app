@@ -15,12 +15,17 @@ class ResourcesTest(unittest.TestCase):
 
         with self.subTest('reading department'):
             r = client.get(URL + 'test_dept')
-            self.assertEqual(r.get_json(), {'name': 'test_dept', 'avg_salary': None, "employees": 0})
+            self.assertEqual(r.get_json(),
+                             {'name': 'test_dept', "head_id": None,
+                              'avg_salary': None, "employees": 0})
 
         with self.subTest('editing department'):
-            r = client.put(URL + 'test_dept', json={'name': 'test_dept_edited'})
-            self.assertEqual(client.get(URL + 'test_dept_edited').get_json(),
-                             {'name': 'test_dept_edited', 'avg_salary': None, "employees": 0})
+            r = client.put(URL + 'test_dept',
+                           json={'name': 'test_dept_edited'})
+            self.assertEqual(client.get(URL + 'test_dept_edited')
+                             .get_json(),
+                             {'name': 'test_dept_edited', "head_id": None,
+                              'avg_salary': None, "employees": 0})
 
         with self.subTest('removing department'):
             r = client.delete(URL + 'test_dept_edited')
@@ -30,10 +35,10 @@ class ResourcesTest(unittest.TestCase):
             r = client.get(URL)
             self.assertEqual(
                 r.get_json(),
-                [{"avg_salary": 2167, "employees": 3, "name": "IT"},
-                 {"avg_salary": 3370, "employees": 2, "name": "PR"},
-                 {"avg_salary": 1433, "employees": 3, "name": "Research"},
-                 {"avg_salary": 1000, "employees": 1, "name": "Sales"}]
+                [{"avg_salary": 2167, "employees": 3, "head_id": 8, "name": "IT"},
+                 {"avg_salary": 3370, "employees": 2, "head_id": 1, "name": "PR"},
+                 {"avg_salary": 1967, "employees": 3, "head_id": 4, "name": "Research"},
+                 {"avg_salary": 1000, "employees": 1, "head_id": None, "name": "Sales"}]
             )
 
         with self.subTest('reading nonexistent department'):
@@ -64,6 +69,6 @@ class ResourcesTest(unittest.TestCase):
             r = client.delete(URL + id)
             self.assertEqual(r.status_code, 204)
 
-        with self.subTest('reaing nonexistent employee'):
+        with self.subTest('reading nonexistent employee'):
             r = client.get(URL + id)
             self.assertEqual(r.status_code, 404)
