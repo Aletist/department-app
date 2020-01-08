@@ -198,7 +198,13 @@ class EmpList(Resource):
 
 class Heads(Resource):
     def get(self):
-        query = Head.query
+        query = db.session.query(Head.head_id)
+        ids = [id
+               for (id,)
+               in query.all()
+               if id is not None]
+        print(ids)
+        query = Employee.query.filter(Employee.id.in_(ids))
         return jsonify([head.serialize()
                         for head
                         in query.all()])
