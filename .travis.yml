@@ -12,7 +12,7 @@ install:
   - pip install coveralls
 
 script:
-  - pylint **/*.py
+#  - pylint **/*.py
   - python db_setup.py connect
   - python db_setup.py db init
   - python db_setup.py db migrate

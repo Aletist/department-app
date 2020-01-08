@@ -79,3 +79,9 @@ class Head(db.Model):
                                       ondelete='SET NULL',
                                       onupdate='CASCADE'),
                         nullable=True)
+
+    def serialize(self):
+        return {
+            'department_name': self.department_name,
+            'head_id': self.head_id,
+        }

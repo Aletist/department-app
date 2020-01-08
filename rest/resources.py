@@ -194,3 +194,11 @@ class EmpList(Resource):
         db.session.add(employee)
         db.session.commit()
         return employee.id, 201
+
+
+class Heads(Resource):
+    def get(self):
+        query = Head.query
+        return jsonify([head.serialize()
+                        for head
+                        in query.all()])
