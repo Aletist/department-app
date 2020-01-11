@@ -1,0 +1,25 @@
+{% extends 'base.html' %}
+{% block title %} Add employee {% endblock %}
+{% block top %}
+    {% call macros.block_top('Add employee', 'employee_add') %}
+        <a href="{{ url_for('employees') }}" class="button error">Cancel</a>
+        <label for="{{ button }}" class="button success">Save</label>
+    {% endcall %}
+{% endblock %}
+{% block middle %}
+    <div class="card" style=" padding: 0 2em">
+        <h2 style="text-align: center">New employee:</h2>
+        <p style="white-space: nowrap; text-align: right">
+            First name:
+            <input type="text" style="width: 30ch">
+        </p>
+        <p style="white-space: nowrap; text-align: right">
+            Last name:
+            <input type="text" style="width: 30ch">
+        </p>
+        <p style="white-space: nowrap; text-align: right">
+            Birth date:
+            <input type="date" style="width: 15ch">
+        </p>
+    </div>
+{% endblock %}

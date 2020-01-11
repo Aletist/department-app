@@ -1,0 +1,43 @@
+{% extends 'employees.html' %}
+{% block title %} Employees filter {% endblock %}
+{% block top %}
+    {% call macros.block_top('Employees', 'employees') %}
+        <a href="{{ url_for('employees') }}" class="pseudo button active">
+            <i class="el el-filter el-lg"></i>
+        </a>
+        <a href="{{ url_for('add_employee') }}" class="success button">
+            Add <i class="el el-plus"></i>
+        </a>
+    {% endcall %}
+{% endblock %}
+{% block middle %}
+    <div class="card" style="margin-bottom: 0">
+        <h2 style="text-align: center">Filter by:</h2>
+        <div class="flex">
+            <div class="three-fourth">
+                <p style="white-space: nowrap; text-align: right">
+                    Birth date from:
+                    <input type="date" style="width: 15ch">
+                    to:
+                    <input type="date" style="width: 15ch">
+                </p>
+                <p style="white-space: nowrap; text-align: right">
+                    Hire date from:
+                    <input type="date" style="width: 15ch">
+                    to:
+                    <input type="date" style="width: 15ch">
+                </p>
+                <p style="white-space: nowrap; text-align: right">
+                    Salary from:
+                    <input type="number" style="width: 15ch">
+                    to:
+                    <input type="number" style="width: 15ch">
+                </p>
+            </div>
+        </div>
+        <div align="center">
+            <button class="pseudo"><i class="el el-repeat"></i></button>
+            <button class="pseudo"><i class="el el-ok"></i></button>
+        </div>
+    </div>
+{% endblock %}

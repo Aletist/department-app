@@ -1,0 +1,95 @@
+{% macro block_top(header, page_name) %}
+    <div>
+        <header style="text-align: center; background-color: #eeeeee;">
+            <h3>{{ header }}</h3>
+        </header>
+        <div>
+            <div class="flex two">
+                <div style=" padding-bottom: 0; white-space: nowrap">
+                    <a class="pseudo button {% if 'department' in page_name.lower() %} active {% endif %}"
+                       href="{{ url_for('departments') }}">
+                        Departments
+                    </a>
+                    <a class="pseudo button {% if 'employee' in page_name.lower() %} active {% endif %}"
+                       href="{{ url_for('employees') }}">
+                        Employees
+                    </a>
+                </div>
+                <div align="right" style="padding-bottom: 0">
+                    {{ caller() }}
+                </div>
+            </div>
+        </div>
+    </div>
+{% endmacro %}
+
+
+{% macro employee_row(person, display_dept=False) %}
+    <tr>
+        <td>{{ person['id'] }}</td>
+        <td>{{ person['first_name'] }}</td>
+        <td>{{ person['last_name'] }}</td>
+        {% if display_dept == True %}
+        <td>{{ person['department'] }}</td>
+        {% endif %}
+        <td>{{ person['salary'] }}</td>
+        <td>{{ person['birth_date'] }}</td>
+        <td>{{ person['hire_date'] }}</td>
+        {{ caller() }}
+    </tr>
+{% endmacro %}
+
+
+{% macro dept_row(dept) %}
+    <tr>
+        <td>{{ dept['name'] }}</td>
+        <td>{{ dept['head'] }}</td>
+        <td>{{ dept['employees'] }}</td>
+        <td>{{ dept['avg_salary'] }}</td>
+        {{ caller() }}
+    </tr>
+{% endmacro %}
+
+
+{% macro control_cell(entity_id, key_name, action) %}
+    <td style="white-space: nowrap; padding: 0">
+    {% set args = {key_name : entity_id} %}
+        <a href="{{ url_for(action, **args) }}"
+           class="pseudo button">
+            <i class="el el-pencil"></i>
+        </a>
+        <label for="modal_{{ entity_id }}" class="button pseudo">
+            <i class="el el-trash"></i>
+        </label>
+    </td>
+    {{ caller() }}
+{% endmacro %}
+
+
+{% macro modal_delete(entity_id, key_name, action) %}
+    <div class="modal">
+        <input id="modal_{{ entity_id }}" type="checkbox"/>
+        <label for="modal_{{ entity_id }}" class="overlay"></label>
+        <article>
+            <header>
+                <h3>Confirmation</h3>
+                <label for="modal_{{ entity_id }}" class="close">&times;</label>
+            </header>
+            <section class="content">{{ caller() }}</section>
+            <footer>
+                {% set args = {key_name : entity_id} %}
+                <form action="{{ url_for(action, **args) }}" name="{{ key_name }}" method="post">
+                    <label>
+                        <button type="submit" class="dangerous"
+                                style="float: left" name="submit"
+                                value="{{ entity_id }}"> Delete
+                        </button>
+                    </label>
+                </form>
+                <label for="modal_{{ entity_id }}" class="button" style="float: right">
+                    Cancel
+                </label>
+            </footer>
+        </article>
+    </div>
+{% endmacro %}

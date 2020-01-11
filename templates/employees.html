@@ -1,0 +1,41 @@
+{% extends 'base.html' %}
+{% block title %} Employees {% endblock %}
+{% block top %}
+    {% call macros.block_top('Employees', 'employees') %}
+        <a href="{{ url_for('employees_filter') }}" class="pseudo button">
+            <i class="el el-filter el-lg"></i>
+        </a>
+        <a href="{{ url_for('add_employee') }}" class="success button">
+            Add <i class="el el-plus"></i>
+        </a>
+    {% endcall %}
+{% endblock %}
+{% block bottom %}
+    <table>
+        <thead>
+        <tr>
+            <th>ID</th>
+            <th>First Name</th>
+            <th>Last Name</th>
+            <th>Department</th>
+            <th>Salary</th>
+            <th>Birth date</th>
+            <th>Hire date</th>
+            <th></th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for employee in employees %}
+            {% call macros.employee_row(employee, display_dept=True) %}
+                {% call macros.control_cell(employee['id'], 'id', 'employee') %}{% endcall %}
+            {% endcall %}
+            {% call macros.modal_delete(employee['id'], 'id','del_employee') %}
+                Are you sure you want to fire employee
+                {{ employee['id'] }},
+                {{ employee['first_name'] }}
+                {{ employee['last_name'] }}?
+            {% endcall %}
+        {% endfor %}
+        </tbody>
+    </table>
+{% endblock %}

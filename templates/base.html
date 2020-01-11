@@ -1,0 +1,26 @@
+{% import 'macros.html' as macros %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <link rel="stylesheet" href="{{ url_for('static', filename='stylesheet.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='elusive-icons/css/elusive-icons.min.css') }}">
+    <meta charset="UTF-8">
+    <title>
+        {% block  title %}
+        {% endblock %}
+    </title>
+</head>
+<body>
+    <div class="card" style="width: min-content; margin: auto;">
+        {% block top %}
+
+        {% endblock %}
+        {% block middle %}
+
+        {% endblock %}
+        {% block bottom %}
+
+        {% endblock %}
+    </div>
+</body>
+</html>

@@ -1,0 +1,34 @@
+{% extends 'departments.html' %}
+{% block title %}Departments filter{% endblock %}
+{% block top %}
+    {% call macros.block_top('Department', 'departments_filter') %}
+        <a href="{{ url_for('departments') }}" class="pseudo button active">
+            <i class="el el-filter el-lg"></i>
+        </a>
+        <a href="{{ url_for('add_dept') }}" class="success button">
+            Add <i class="el el-plus"></i>
+        </a>
+    {% endcall %}
+{% endblock %}
+{% block middle %}
+    <div class="card">
+        <form action="{{ url_for('departments_filter') }}" method="post"></form>
+        <h2 style="text-align: center">Filter by:</h2>
+        <p style="white-space: nowrap; text-align: right">
+            Employees from:
+            <input type="number" style="width: 15ch">
+            to:
+            <input type="number" style="width: 15ch">
+        </p>
+        <p style="white-space: nowrap; text-align: right">
+            Average salary from:
+            <input type="number" name="min_salary" min="0" style="width: 15ch">
+            to:
+            <input type="number" name="max_salary" min="0" style="width: 15ch">
+        </p>
+        <div align="center">
+            <a href="departments.html" class="pseudo button"><i class="el el-repeat"></i></a>
+            <a href="departments.html" class="pseudo button"><i class="el el-ok"></i></a>
+        </div>
+    </div>
+{% endblock %}

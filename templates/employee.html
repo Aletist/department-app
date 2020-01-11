@@ -1,0 +1,72 @@
+{% extends 'base.html' %}
+{% block title %} Employee {% endblock %}
+{% block top %}
+    {% call macros.block_top('Employee', 'employee') %}
+        <label for="modal_edit" class="button">Edit <i class="el el-pencil"></i></label>
+    {% endcall %}
+    <div class="modal">
+        <input id="modal_edit" type="checkbox"/>
+        <label for="modal_edit" class="overlay"></label>
+        <article>
+            <header>
+                <h3>Edit department</h3>
+                <label for="modal_edit" class="close">&times;</label>
+            </header>
+            <section style="width: 25em">
+                <div class="flex two">
+                    <div>
+                        <p>First name:</p>
+                        <label>
+                            <input type="text">
+                        </label>
+                        <p>Birth date:</p>
+                        <input type="date">
+                        <p>Department:</p>
+                        <select>
+                            <option>Unassigned</option>
+                            {% for department in departments %}
+                                <option value="{{ department['name'] }}">{{ department['name'] }}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                    <div>
+                        <p>Last name</p>
+                        <label>
+                            <input type="text">
+                        </label>
+                        <p>Hire date:</p>
+                        <input type="date">
+                        <p>Salary</p>
+                        <label>
+                            <input type="number" min="0">
+                        </label>
+                    </div>
+                </div>
+            </section>
+            <footer>
+                <button class="success">Accept</button>
+                <label for="modal_edit" class="button dangerous">
+                    Cancel
+                </label>
+            </footer>
+        </article>
+    </div>
+{% endblock %}
+{% block middle %}
+    <div style="width: 600px; background-color: #eeeeee; padding-left: 1ch">
+        <div class="flex two">
+            <div style="width: 300px;">
+                <h4>ID: {{ employee['id'] }}</h4>
+                <h4>First name: {{ employee['first_name'] }}</h4>
+                <h4>Last name: {{ employee['last_name'] }}</h4>
+                <h4>Birth date: {{ employee['birth_date'] }}</h4>
+            </div>
+            <div style="width: 300px;">
+                <h4>Hire date: {{ employee['hire_date'] }}</h4>
+                <h4>Department: {{ employee['department'] }}</h4>
+                <h4>Salary: {{ employee['salary'] }}</h4>
+            </div>
+        </div>
+
+    </div>
+{% endblock %}

@@ -1,0 +1,35 @@
+{% extends 'base.html' %}
+{% block title %} Add department {% endblock %}
+{% block top %}
+    {% call macros.block_top('Add department', 'departments_filter') %}
+        <a href="{{ url_for('departments') }}" class="button error">Cancel</a>
+        <label for="accept" class="button success">Save</label>
+    {% endcall %}
+{% endblock %}
+{% block middle %}
+    <form action="{{ url_for('submit_dept') }}" method="post">
+        <input id="accept" type="submit" style="visibility: hidden">
+        <div class="card" style=" padding: 0 2em; margin-bottom: 0">
+            <h1 style="text-align: center">New department:</h1>
+            <p style="white-space: nowrap; text-align: right">
+                Department name:
+                <input type="text" name="name" style="width: 30ch">
+            </p>
+            <p style="white-space: nowrap; text-align: right">
+                Department head:
+                <select name="head" style="width: 30ch">
+                    <option value="">Unassigned</option>
+                    {% for candidate in candidates %}
+                        <option value="{{ candidate['id'] }}">
+                            {{ candidate['id'] }}, {{ candidate['first_name'] }} {{ candidate['last_name'] }}
+                        </option>
+                    {% endfor %}
+                </select>
+            </p>
+            <p style="white-space: nowrap; text-align: right">
+                Department head salary:
+                <input name="salary" type="number" min="0" style="width: 15ch">
+            </p>
+        </div>
+    </form>
+{% endblock %}
