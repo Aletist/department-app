@@ -1,7 +1,10 @@
 import requests
 from flask import Flask, url_for, redirect, render_template, request
 
+from forms import DepartmentsFilterForm
+
 app = Flask(__name__, template_folder='../templates', static_folder='../static')
+app.config['WTF_CSRF_ENABLED'] = False
 api_url = 'http://api.department-app/'
 
 
@@ -32,13 +35,25 @@ def departments():
 
 @app.route('/departments/filter', methods=['POST', 'GET'])
 def departments_filter():
-    data = request.form.to_dict()
-    print(data)
-    api_request = requests.get(api_url + 'departments')
-    depts = api_request.json()
+    form = DepartmentsFilterForm()
     api_request = requests.get(api_url + 'employees/heads')
     heads = api_request.json()
+    api_request = requests.get(api_url + 'departments')
+    depts = api_request.json()
 
+    if form.validate_on_submit():
+        if form.min_employees.data is not None:
+            depts = [dept for dept in depts
+                     if dept['employees'] >= form.min_employees.data]
+        if form.max_employees.data is not None:
+            depts = [dept for dept in depts
+                     if dept['employees'] <= form.max_employees.data]
+        if form.min_salary.data is not None:
+            depts = [dept for dept in depts
+                     if dept['avg_salary'] >= form.min_salary.data]
+        if form.max_salary.data is not None:
+            depts = [dept for dept in depts
+                     if dept['avg_salary'] <= form.max_salary.data]
     for dept in depts:
         head = next((item
                      for item
@@ -49,7 +64,7 @@ def departments_filter():
                         if head is None
                         else '{} {}'.format(head["first_name"],
                                             head["last_name"]))
-    return render_template('departments_filter.html', depts=depts)
+    return render_template('departments_filter.html', depts=depts, form=form)
 
 
 @app.route('/departments/add')
@@ -113,7 +128,7 @@ def employees():
     return render_template('employees.html', employees=employees)
 
 
-@app.route('/employees/filter')
+@app.route('/employees/filter', methods=['GET', 'POST'])
 def employees_filter():
     api_request = requests.get(api_url + 'employees')
     employees = api_request.json()
@@ -127,7 +142,7 @@ def remove_employee(id):
 
 @app.route('/employees/<id>')
 def employee(id):
-    api_request = requests.get(api_url + 'employees/'+id)
+    api_request = requests.get(api_url + 'employees/' + id)
     employee = api_request.json()
     api_request = requests.get(api_url + 'departments')
     depts = api_request.json()
