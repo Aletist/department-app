@@ -1,5 +1,9 @@
-input.dept_filter {
+.width_15 {
     width: 15ch
+}
+
+.width_30 {
+    width: 30ch
 }
 
 .form-field {

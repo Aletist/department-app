@@ -1,7 +1,7 @@
 import requests
 from flask import Flask, url_for, redirect, render_template, request
 
-from forms import DepartmentsFilterForm
+from forms import DepartmentsFilterForm, DepartmentAddForm
 
 app = Flask(__name__, template_folder='../templates', static_folder='../static')
 app.config['WTF_CSRF_ENABLED'] = False
@@ -40,7 +40,6 @@ def departments_filter():
     heads = api_request.json()
     api_request = requests.get(api_url + 'departments')
     depts = api_request.json()
-
     if form.validate_on_submit():
         if form.min_employees.data is not None:
             depts = [dept for dept in depts
@@ -67,18 +66,28 @@ def departments_filter():
     return render_template('departments_filter.html', depts=depts, form=form)
 
 
-@app.route('/departments/add')
+@app.route('/departments/add', methods=['GET', 'POST'])
 def add_dept():
     api_request = requests.get(api_url + 'employees?department=unassigned')
     candidates = api_request.json()
-    return render_template('department_add.html', candidates=candidates)
-
-
-@app.route('/departments/add/submit', methods=['POST'])
-def submit_dept():
-    data = request.form.to_dict()
-    print(data)
-    return redirect(url_for('departments'))
+    candidates_list = [(-1, 'Unassigned')] + [(person['id'], '{}, {} {}'
+                                               .format(person['id'],
+                                                       person['first_name'],
+                                                       person['last_name'])
+                                               ) for person in candidates]
+    print(candidates_list)
+    form = DepartmentAddForm()
+    form.dept_head.choices = candidates_list
+    if form.validate_on_submit():
+        args_string = 'departments?name={}'.format(form.dept_name.data)
+        if form.dept_head.data > -1:
+            args_string += '&head_id={}'.format(form.dept_head.data)
+            if form.head_salary.data is not None:
+                args_string += '&head_salary={}'.format(form.head_salary.data)
+        api_request = requests.post(api_url + args_string)
+        print(api_request.status_code)
+        return redirect(url_for('departments'))
+    return render_template('department_add.html', form=form)
 
 
 @app.route('/departments/delete', methods=['POST'])

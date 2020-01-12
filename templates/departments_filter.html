@@ -17,9 +17,9 @@
             <p>
 
                 {{ form.min_employees.label }}
-                {{ form.min_employees(class='dept_filter') }}
+                {{ form.min_employees(class='width_15') }}
                 {{ form.max_employees.label }}
-                {{ form.max_employees(class='dept_filter') }}
+                {{ form.max_employees(class='width_15') }}
                 {% if form.min_employees.errors %}
                     {% for error in form.min_employees.errors %}
                         <div class="error-msg">{{ error }}</div>
@@ -33,9 +33,9 @@
             </p>
             <p>
                 {{ form.min_salary.label }}
-                {{ form.min_salary(class='dept_filter') }}
+                {{ form.min_salary(class='width_15') }}
                 {{ form.max_salary.label }}
-                {{ form.max_salary(class='dept_filter') }}
+                {{ form.max_salary(class='width_15') }}
                 {% if form.min_salary.errors %}
                     {% for error in form.min_salary.errors %}
                         <div class="error-msg">{{ error }}</div>
