@@ -30,6 +30,7 @@ class Dept(Resource):
         parser = reqparse.RequestParser()
         parser.add_argument('name', type=str)
         parser.add_argument('head_id', type=int)
+        parser.add_argument('head_salary', type=int)
         args = parser.parse_args()
         department = Department.query.get(name)
         if department is None:
@@ -38,7 +39,12 @@ class Dept(Resource):
         if args['head_id'] == -1:
             department.head.head_id = None
         elif args['head_id'] is not None:
+            employee = Employee.query.get(args['head_id'])
+            if employee is None:
+                abort(400)
             department.head.head_id = args['head_id']
+            if args['head_salary'] is not None:
+                employee.salary = args['head_salary']
         db.session.commit()
         return '', 200
 

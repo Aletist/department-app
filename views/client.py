@@ -1,11 +1,15 @@
 import requests
 from flask import Flask, url_for, redirect, render_template, request
 
-from forms import DepartmentsFilterForm, DepartmentAddForm
+from forms import DepartmentsFilterForm, DepartmentForm
 
 app = Flask(__name__, template_folder='../templates', static_folder='../static')
 app.config['WTF_CSRF_ENABLED'] = False
 api_url = 'http://api.department-app/'
+
+
+def format_emplyee(id, first_name, last_name):
+    return '{}, {} {}'.format(id, first_name, last_name)
 
 
 @app.route('/')
@@ -75,8 +79,7 @@ def add_dept():
                                                        person['first_name'],
                                                        person['last_name'])
                                                ) for person in candidates]
-    print(candidates_list)
-    form = DepartmentAddForm()
+    form = DepartmentForm()
     form.dept_head.choices = candidates_list
     if form.validate_on_submit():
         args_string = 'departments?name={}'.format(form.dept_name.data)
@@ -97,30 +100,54 @@ def del_dept():
     return redirect(url_for('departments'))
 
 
-@app.route('/departments/<name>')
+@app.route('/departments/<name>', methods=['GET', 'POST'])
 def department(name):
     request = requests.get(api_url + 'departments/' + name)
     dept = request.json()
     request = requests.get(api_url + 'employees/?department=' + dept['name'])
     employees = request.json()
-    head = next(
-        (person
-         for person
-         in employees
-         if person["id"] == dept['head_id']
-         ), None)
-    dept['head'] = \
-        'unassigned' if head is None \
-            else ('{}, {} {}'
-                  .format(head['id'],
-                          head["first_name"],
-                          head["last_name"])
-                  )
-    dept['head_salary'] = \
-        None if head is None \
-            else head['salary']
 
-    return render_template('department.html', dept=dept, employees=employees)
+    head = next((person for person in employees
+                 if person["id"] == dept['head_id']
+                 ), None)
+
+    if head is not None:
+        form = DepartmentForm(dept_name=dept['name'], head_salary=head['salary'])
+    else:
+        form = DepartmentForm(dept_name=dept['name'])
+
+    dept['head'] = 'unassigned' if head is None \
+        else (format_emplyee(head['id'],
+                             head["first_name"], head["last_name"])
+              )
+
+    candidates_list = [(person['id'],
+                        format_emplyee(person['id'],
+                                       person['first_name'],
+                                       person['last_name'])
+                        ) for person in employees]
+    candidates_list.insert(0, (-1, 'Unassigned'))
+
+    if head is not None:  # making current head the first (default) option
+        current_head = (head['id'], format_emplyee(head['id'], head['first_name'], head['last_name']))
+        candidates_list.remove(current_head)
+        candidates_list.insert(0, current_head)
+
+    form.dept_head.choices = candidates_list
+
+    if form.validate_on_submit():
+        args_string = 'departments/{}?name={}'.format(name, form.dept_name.data)
+        args_string += '&head_id={}'.format(form.dept_head.data)
+
+        if form.head_salary.data is not None:
+            args_string += '&head_salary={}'.format(form.head_salary.data)
+
+        api_request = requests.put(api_url + args_string)
+        print(api_request.status_code)
+        return redirect(url_for('department', name=form.dept_name.data))
+
+    dept['head_salary'] = None if head is None else head['salary']
+    return render_template('department.html', dept=dept, employees=employees, form=form)
 
 
 @app.route('/departments/<name>/edit', methods=['POST'])

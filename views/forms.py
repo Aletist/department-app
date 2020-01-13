@@ -1,18 +1,18 @@
 from flask_wtf import FlaskForm
 from wtforms import StringField, IntegerField, validators, SelectField
-from wtforms.validators import DataRequired, NumberRange, NoneOf
+from wtforms.validators import NumberRange, NoneOf
 from wtforms.widgets import html5
 
 
-class DepartmentAddForm(FlaskForm):
+class DepartmentForm(FlaskForm):
     dept_name = StringField('Department name:',
-                            validators=[NoneOf(['unassigned', 'filter', 'add'],
-                                               message='Dont use reserved names'),
-                                        validators.Regexp('^\w+$',
-                                                          message='Department name must contain only letters,'
-                                                                  ' numbers or underscore')])
-    dept_head = SelectField('Department head:', coerce=int, validators=[validators.Optional()])
-    head_salary = IntegerField('Salary:', widget=html5.NumberInput(),
+                            validators=[validators.data_required(),
+                                        NoneOf(['unassigned', 'filter', 'add'], message='Dont use reserved names'),
+                                        validators.Regexp('^[a-zA-Z0-9_]*$', message=('Department name must'
+                                                                                      ' contain only letters,'
+                                                                                      ' numbers or underscore'))])
+    dept_head = SelectField('Department head:', coerce=int)
+    head_salary = IntegerField('Department head`s salary:', widget=html5.NumberInput(),
                                validators=[validators.Optional(),
                                            NumberRange(min=0, message='People don`t pay to work')])
 
