@@ -1,7 +1,9 @@
+from datetime import datetime
+
 import requests
 from flask import Flask, url_for, redirect, render_template, request
 
-from forms import DepartmentsFilterForm, DepartmentForm, EmployeeFilterForm, EmployeeAddForm
+from forms import DepartmentsFilterForm, DepartmentForm, EmployeeFilterForm, EmployeeAddForm, EmployeeEditForm
 
 app = Flask(__name__, template_folder='../templates', static_folder='../static')
 app.config['WTF_CSRF_ENABLED'] = False
@@ -146,11 +148,11 @@ def department(name):
     return render_template('department.html', dept=dept, employees=employees, form=form)
 
 
-@app.route('/departments/<name>/edit', methods=['POST'])
-def edit_dept(name):
-    data = request.form.to_dict()
-    print(data)
-    return redirect(url_for('department', name=name))
+# @app.route('/departments/<name>/edit', methods=['POST'])
+# def edit_dept(name):
+#     data = request.form.to_dict()
+#     print(data)
+#     return redirect(url_for('department', name=name))
 
 
 @app.route('/employees/')
@@ -206,13 +208,46 @@ def remove_employee(name, id):
     return redirect(url_for('department', name=name))
 
 
-@app.route('/employees/<id>')
+@app.route('/employees/<id>', methods=['GET', 'POST'])
 def employee(id):
     api_request = requests.get(api_url + 'employees/' + id)
     employee = api_request.json()
     api_request = requests.get(api_url + 'departments')
-    depts = api_request.json()
-    return render_template('employee.html', employee=employee, departments=depts)
+    departments = api_request.json()
+
+    dept_list = [(dept['name'], dept['name']) for dept in departments]
+    dept_list.insert(0, ('unassigned', 'unassigned'))
+
+    if employee['department'] is not None:
+        dept_list.remove((employee['department'], employee['department']))
+        dept_list.insert(0, (employee['department'], employee['department']))
+
+    if employee['salary'] is not None:
+        form = EmployeeEditForm(first_name=employee['first_name'],
+                                last_name=employee['last_name'],
+                                birth_date=datetime.strptime(employee['birth_date'],'%Y-%m-%d'),
+                                hire_date=datetime.strptime(employee['hire_date'], '%Y-%m-%d'),
+                                salary=employee['salary']
+                                )
+    else:
+        form = EmployeeEditForm(first_name=employee['first_name'],
+                                last_name=employee['last_name'],
+                                birth_date=datetime.strptime(employee['birth_date'], '%Y-%m-%d'),
+                                hire_date=datetime.strptime(employee['hire_date'], '%Y-%m-%d')
+                                )
+
+    form.department.choices = dept_list
+    if form.validate_on_submit():
+        request_args = 'employees/{}?first_name={}'.format(employee['id'], form.first_name.data)
+        request_args += '&last_name={}'.format(form.last_name.data)
+        request_args += '&birth_date={}'.format(form.birth_date.data)
+        request_args += '&hire_date={}'.format(form.hire_date.data)
+        request_args += '&department={}'.format(form.department.data)
+        if form.salary.data is not None:
+            request_args += '&salary={}'.format(form.salary.data)
+        print(api_url + request_args)
+        api_request = requests.put(api_url + request_args)
+    return render_template('employee.html', employee=employee, departments=departments, form=form)
 
 
 @app.route('/employees/<id>/delete', methods=['POST'])
@@ -221,9 +256,11 @@ def del_employee(id):
     return redirect(url_for('employees'))
 
 
-@app.route('/employees/edit')
-def edit_employee(id):
-    return redirect(url_for('employees'))
+# @app.route('/employees/edit')
+# def edit_employee(id):
+#     form = EmployeeEditForm()
+#
+#     return redirect(url_for('employees'))
 
 
 @app.route('/employees/add', methods=['GET', 'POST'])

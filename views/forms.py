@@ -33,7 +33,6 @@ class DepartmentsFilterForm(FlaskForm):
                                           NumberRange(min=0, message='People don`t pay to work')])
 
     def validate_on_submit(self):
-        result = True
         result = super(DepartmentsFilterForm, self).validate()
         if self.min_salary.data is not None and self.max_salary.data is not None:
             if self.min_salary.data > self.max_salary.data:
@@ -60,7 +59,6 @@ class EmployeeFilterForm(FlaskForm):
                                           NumberRange(min=0, message='People don`t pay to work')])
 
     def validate_on_submit(self):
-        result = True
         result = super(EmployeeFilterForm, self).validate()
         if self.birth_date_min.data is not None and self.birth_date_max.data is not None:
             if self.birth_date_min.data > self.birth_date_max.data:
@@ -96,3 +94,38 @@ class EmployeeAddForm(FlaskForm):
                                                   message=('Department name must'
                                                            ' contain only letters,'
                                                            ' numbers or underscore'))])
+
+
+class EmployeeEditForm(FlaskForm):
+    birth_date = DateField('Birth date', validators=[validators.data_required()])
+
+    hire_date = DateField('Hire date', validators=[validators.data_required()])
+
+    department = SelectField('Department:')
+
+    salary = IntegerField('Salary:', widget=html5.NumberInput(),
+                          validators=[validators.Optional(),
+                                      NumberRange(min=0, message='People don`t pay to work')])
+
+    first_name = StringField('First name:',
+                             validators=[
+                                 validators.data_required(),
+                                 validators.Regexp('^[a-zA-Z0-9_]*$',
+                                                   message=('Department name must'
+                                                            ' contain only letters,'
+                                                            ' numbers or underscore'))])
+    last_name = StringField('Last name:',
+                            validators=[
+                                validators.data_required(),
+                                validators.Regexp('^[a-zA-Z0-9_]*$',
+                                                  message=('Department name must'
+                                                           ' contain only letters,'
+                                                           ' numbers or underscore'))])
+
+    def validate_on_submit(self):
+        result = super(EmployeeEditForm, self).validate()
+        if self.birth_date.data is not None and self.hire_date.data is not None:
+            if self.birth_date.data > self.hire_date.data:
+                self.birth_date.errors.append('Started working before birth? Impressive.')
+                result = False
+        return result
