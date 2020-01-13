@@ -124,9 +124,9 @@ class Emp(Resource):
                 for k, v
                 in parser.parse_args().items()
                 if v is not None}
-        if args['department'] == 'unassigned':
+        if args.get('department') == 'unassigned':
             args['department'] = None
-        if args['salary'] < 0:
+        if args.get('salary') == 1:
             args['salary'] = None
         employee = Employee.query.get(id)
         if employee is None:
