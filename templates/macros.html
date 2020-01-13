@@ -66,7 +66,7 @@
 {% endmacro %}
 
 
-{% macro modal_delete(entity_id, key_name, action) %}
+{% macro modal_delete(entity_id, key_name, action, parent_id='') %}
     <div class="modal">
         <input id="modal_{{ entity_id }}" type="checkbox"/>
         <label for="modal_{{ entity_id }}" class="overlay"></label>
@@ -78,10 +78,14 @@
             <section class="content">{{ caller() }}</section>
             <footer>
                 {% set args = {key_name : entity_id} %}
+                {% if parent_id %}
+                    {% set inner = {'name': parent_id} %}
+                    {{  args.update(inner) }}
+                {% endif %}
                 <form action="{{ url_for(action, **args) }}" name="{{ key_name }}" method="post">
                     <label>
                         <button type="submit" class="dangerous"
-                                style="float: left" name="submit"
+                                style="float: left" name="name"
                                 value="{{ entity_id }}"> Delete
                         </button>
                     </label>

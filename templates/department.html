@@ -73,7 +73,7 @@
             {% call macros.employee_row(employee) %}
                 {% call macros.control_cell(employee['id'], 'id', 'employee') %}{% endcall %}
             {% endcall %}
-            {% call macros.modal_delete(employee['id'], 'id','remove_employee') %}
+            {% call macros.modal_delete(employee['id'], 'id','remove_employee', parent_id=dept['name']) %}
                 Are you sure you want to remove employee {{ employee['id'] }}, {{ employee['first_name'] }}
                 {{ employee['last_name'] }} from department?
             {% endcall %}

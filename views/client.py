@@ -70,11 +70,11 @@ def departments_filter():
 def add_dept():
     api_request = requests.get(api_url + 'employees?department=unassigned')
     candidates = api_request.json()
-    candidates_list = [(-1, 'Unassigned')] + [(person['id'], '{}, {} {}'
-                                               .format(person['id'],
-                                                       person['first_name'],
-                                                       person['last_name'])
-                                               ) for person in candidates]
+    candidates_list = [(person['id'], format_emplyee(person['id'],
+                                                     person['first_name'],
+                                                     person['last_name'])
+                        ) for person in candidates]
+    candidates_list.insert(0, (-1, 'Unassigned'))
     form = DepartmentForm()
     form.dept_head.choices = candidates_list
     if form.validate_on_submit():
@@ -93,6 +93,7 @@ def add_dept():
 def del_dept():
     data = request.form.to_dict()
     print(data)
+    api_request = requests.delete(api_url + 'departments/' + data['name'])
     return redirect(url_for('departments'))
 
 
@@ -191,9 +192,18 @@ def employees_filter():
     return render_template('employees_filter.html', employees=employees, form=form)
 
 
-@app.route('/departments/remove/<id>')
-def remove_employee(id):
-    return redirect(url_for('department'))
+@app.route('/departments/<name>/remove/<id>', methods=['POST'])
+def remove_employee(name, id):
+    request_url = api_url + 'employees/' + id
+    request = requests.get(request_url)
+    employee = request.json()
+    request_url += '?department=unassigned'
+    if employee['salary'] is not None:
+        request_url += '&salary=-1'
+        print(request_url)
+    request = requests.put(request_url)
+    print(request)
+    return redirect(url_for('department', name=name))
 
 
 @app.route('/employees/<id>')
@@ -207,7 +217,7 @@ def employee(id):
 
 @app.route('/employees/<id>/delete', methods=['POST'])
 def del_employee(id):
-    api_request = requests.delete(api_url + 'employees/' + id)
+    requests.delete(api_url + 'employees/' + id)
     return redirect(url_for('employees'))
 
 

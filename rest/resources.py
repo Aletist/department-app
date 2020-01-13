@@ -84,15 +84,14 @@ class DeptList(Resource):
         parser.add_argument('head_id', type=int)
         parser.add_argument('head_salary', type=int)
         args = parser.parse_args()
-        dept = Department.query \
-            .get(args['name'])
+
+        dept = Department.query.get(args['name'])
         if dept is not None:
             abort(409)
         dept = Department(name=args['name'])
         emp = None
         if args['head_id'] is not None:
-            emp = Employee.query \
-                .get(args['head_id'])
+            emp = Employee.query.get(args['head_id'])
             if emp is None:
                 abort(400)
         head = Head(department_name=dept.name,
@@ -125,6 +124,10 @@ class Emp(Resource):
                 for k, v
                 in parser.parse_args().items()
                 if v is not None}
+        if args['department'] == 'unassigned':
+            args['department'] = None
+        if args['salary'] < 0:
+            args['salary'] = None
         employee = Employee.query.get(id)
         if employee is None:
             abort(404)
