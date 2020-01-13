@@ -48,7 +48,7 @@ class DepartmentsFilterForm(FlaskForm):
 
 
 class EmployeeFilterForm(FlaskForm):
-    birth_date_min = DateField('Birth date from', validators=[validators.Optional()] )
+    birth_date_min = DateField('Birth date from', validators=[validators.Optional()])
     birth_date_max = DateField('to', validators=[validators.Optional()])
     hire_date_min = DateField('Hire date from', validators=[validators.Optional()])
     hire_date_max = DateField('to', validators=[validators.Optional()])
@@ -76,5 +76,23 @@ class EmployeeFilterForm(FlaskForm):
             if self.min_salary.data > self.max_salary.data:
                 self.min_salary.errors.append('Min filter for salary can`t be more than max filter')
                 result = False
-
         return result
+
+
+class EmployeeAddForm(FlaskForm):
+    birth_date = DateField('Birth date', validators=[validators.Optional()])
+
+    first_name = StringField('First name:',
+                             validators=[
+                                 validators.data_required(),
+                                 validators.Regexp('^[a-zA-Z0-9_]*$',
+                                                   message=('Department name must'
+                                                            ' contain only letters,'
+                                                            ' numbers or underscore'))])
+    last_name = StringField('Last name:',
+                            validators=[
+                                validators.data_required(),
+                                validators.Regexp('^[a-zA-Z0-9_]*$',
+                                                  message=('Department name must'
+                                                           ' contain only letters,'
+                                                           ' numbers or underscore'))])

@@ -3,23 +3,41 @@
 {% block top %}
     {% call macros.block_top('Add employee', 'employee_add') %}
         <a href="{{ url_for('employees') }}" class="button error">Cancel</a>
-        <label for="{{ button }}" class="button success">Save</label>
+        <label for="button" class="button success">Save</label>
     {% endcall %}
 {% endblock %}
 {% block middle %}
-    <div class="card" style=" padding: 0 2em">
-        <h2 style="text-align: center">New employee:</h2>
-        <p style="white-space: nowrap; text-align: right">
-            First name:
-            <input type="text" style="width: 30ch">
-        </p>
-        <p style="white-space: nowrap; text-align: right">
-            Last name:
-            <input type="text" style="width: 30ch">
-        </p>
-        <p style="white-space: nowrap; text-align: right">
-            Birth date:
-            <input type="date" style="width: 15ch">
-        </p>
-    </div>
+    <form action="{{ url_for('add_employee') }}" method="post">
+        <div class="card" style=" padding: 0 2em">
+            <h2 style="text-align: center">New employee:</h2>
+            <p style="white-space: nowrap; text-align: right">
+                {{ form.first_name.label }}
+                {{ form.first_name(class='width_30') }}
+            </p>
+            {% if form.first_name.errors %}
+                {% for error in form.first_name.errors %}
+                    <div class="error-msg">{{ error }}</div>
+                {% endfor %}
+            {% endif %}
+            <p style="white-space: nowrap; text-align: right">
+                {{ form.last_name.label }}
+                {{ form.last_name(class='width_30') }}
+            </p>
+            {% if form.last_name.errors %}
+                {% for error in form.last_name_name.errors %}
+                    <div class="error-msg">{{ error }}</div>
+                {% endfor %}
+            {% endif %}
+            <p style="white-space: nowrap; text-align: right">
+                {{ form.birth_date.label }}
+                {{ form.birth_date(class='width_15') }}
+            </p>
+            {% if form.birth_date.errors %}
+                {% for error in form.birth_date.errors %}
+                    <div class="error-msg">{{ error }}</div>
+                {% endfor %}
+            {% endif %}
+        </div>
+    <button type="submit" style="visibility: hidden" id="button"></button>
+    </form>
 {% endblock %}

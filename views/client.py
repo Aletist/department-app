@@ -1,7 +1,7 @@
 import requests
 from flask import Flask, url_for, redirect, render_template, request
 
-from forms import DepartmentsFilterForm, DepartmentForm, EmployeeFilterForm
+from forms import DepartmentsFilterForm, DepartmentForm, EmployeeFilterForm, EmployeeAddForm
 
 app = Flask(__name__, template_folder='../templates', static_folder='../static')
 app.config['WTF_CSRF_ENABLED'] = False
@@ -25,13 +25,9 @@ def departments():
     heads = request.json()
 
     for dept in depts:
-        head = next((item
-                     for item
-                     in heads
-                     if item["id"] == dept['head_id']),
-                    None)
-        dept['head'] = ('unassigned'
-                        if head is None
+        head = next((item for item in heads if item["id"] == dept['head_id']
+                     ), None)
+        dept['head'] = ('unassigned' if head is None
                         else '{} {}'.format(head["first_name"],
                                             head["last_name"]))
     return render_template('departments.html', depts=depts)
@@ -128,7 +124,8 @@ def department(name):
     candidates_list.insert(0, (-1, 'Unassigned'))
 
     if head is not None:  # making current head the first (default) option
-        current_head = (head['id'], format_emplyee(head['id'], head['first_name'], head['last_name']))
+        current_head = (head['id'],
+                        format_emplyee(head['id'], head['first_name'], head['last_name']))
         candidates_list.remove(current_head)
         candidates_list.insert(0, current_head)
 
@@ -218,9 +215,20 @@ def edit_employee(id):
     return redirect(url_for('employees'))
 
 
-@app.route('/employees/add')
+@app.route('/employees/add', methods=['GET', 'POST'])
 def add_employee():
-    return render_template('employee_add.html')
+    form = EmployeeAddForm()
+
+    if form.validate_on_submit():
+        args_string = 'employees?first_name={}'.format(form.first_name.data)
+        args_string += '&last_name={}'.format(form.last_name.data)
+        args_string += '&birth_date={}'.format(form.birth_date.data)
+
+        api_request = requests.post(api_url + args_string)
+        print(api_request.status_code)
+        return redirect(url_for('employees'))
+
+    return render_template('employee_add.html', form=form)
 
 
 if __name__ == '__main__':
