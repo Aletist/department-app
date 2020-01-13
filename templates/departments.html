@@ -1,0 +1,37 @@
+{% extends 'base.html' %}
+{% block title %} Departments {% endblock %}
+{% block top %}
+    {% call macros.block_top('Department', 'departments') %}
+        <a href="{{ url_for('departments_filter') }}" class="pseudo button">
+            <i class="el el-filter el-lg"></i>
+        </a>
+        <a href="{{ url_for('add_dept') }}" class="success button">
+            Add <i class="el el-plus"></i>
+        </a>
+    {% endcall %}
+{% endblock %}
+
+{% block bottom %}
+    <table>
+        <thead>
+        <tr>
+            <th>Name</th>
+            <th>Head</th>
+            <th>Number of employees</th>
+            <th>Average salary</th>
+            <th></th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for dept in depts %}
+            {% call macros.dept_row(dept) %}
+                {% call macros.control_cell(dept['name'], 'name', 'department') %}{% endcall %}
+            {% endcall %}
+            {% call macros.modal_delete(dept['name'], 'name', 'del_dept') %}
+                Are you sure you want to delete department {{ dept['name'] }}?
+                All employees will be kept in unassigned category
+            {% endcall %}
+        {% endfor %}
+        </tbody>
+    </table>
+{% endblock %}

@@ -2,8 +2,9 @@ from datetime import date
 import pymysql
 from flask_script import Manager, Command
 from flask_migrate import Migrate, MigrateCommand
-from models.models import Employee, Department
+from models.models import Employee, Department, Head
 from service.commons import app, db
+
 
 class Connect(Command):
     def run(self):
@@ -40,6 +41,7 @@ class Connect(Command):
         finally:
             connectionInstance.close()
 
+
 class Seed(Command):
     def run(self):
         depts = [Department(name='IT'),
@@ -55,7 +57,6 @@ class Seed(Command):
             Employee(first_name='Siusan',
                      last_name='Turner',
                      department='PR',
-                     is_head=True,
                      salary=3340,
                      birth_date=date(1995, 4, 7)
                      ),
@@ -74,7 +75,7 @@ class Seed(Command):
             Employee(first_name='Brian',
                      last_name='Fox',
                      department='Research',
-                     salary=1900,
+                     salary=3500,
                      birth_date=date(1990, 1, 6)
                      ),
             Employee(first_name='Steve',
@@ -88,14 +89,12 @@ class Seed(Command):
             Employee(first_name='Alex',
                      last_name='Jones',
                      department='PR',
-                     is_head=True,
                      salary=3400,
                      birth_date=date(1975, 3, 17)
                      ),
             Employee(first_name='Michael',
-                     last_name='Pane',
+                     last_name='Payne',
                      department='IT',
-                     is_head=True,
                      salary=3200,
                      birth_date=date(1980, 7, 25)
                      ),
@@ -123,11 +122,22 @@ class Seed(Command):
             db.session.add(employee)
         db.session.commit()
 
+        heads = [
+            Head(department_name='IT', head_id=8),
+            Head(department_name='PR', head_id=1),
+            Head(department_name='Research', head_id=4),
+            Head(department_name='Sales')
+        ]
+
+        for head in heads:
+            db.session.add(head)
+        db.session.commit()
+
 
 migrate = Migrate(app, db)
 manager = Manager(app)
 manager.add_command('db', MigrateCommand)
-manager.add_command('add_db', Connect())
+manager.add_command('connect', Connect())
 manager.add_command('seed', Seed())
 
 

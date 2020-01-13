@@ -1,0 +1,76 @@
+{% extends 'employees.html' %}
+{% block title %} Employees filter {% endblock %}
+{% block top %}
+    {% call macros.block_top('Employees', 'employees') %}
+        <a href="{{ url_for('employees') }}" class="pseudo button active">
+            <i class="el el-filter el-lg"></i>
+        </a>
+        <a href="{{ url_for('add_employee') }}" class="success button">
+            Add <i class="el el-plus"></i>
+        </a>
+    {% endcall %}
+{% endblock %}
+{% block middle %}
+    <form action="{{ url_for('employees_filter') }}" method="post">
+        <div class="card" style="margin-bottom: 0">
+
+            <h2 style="text-align: center">Filter by:</h2>
+            <p style="white-space: nowrap; text-align: center">
+                {{ form.birth_date_min.label }}
+                {{ form.birth_date_min(class='width_15') }}
+
+                {{ form.birth_date_max.label }}
+                {{ form.birth_date_max(class='width_15') }}
+            </p>
+            {% if form.birth_date_min.errors %}
+                {% for error in form.birth_date_min.errors %}
+                    <div class="error-msg">{{ error }}</div>
+                {% endfor %}
+            {% endif %}
+
+            {% if form.birth_date_max.errors %}
+                {% for error in form.birth_date_max.errors %}
+                    <div class="error-msg">{{ error }}</div>
+                {% endfor %}
+            {% endif %}
+            <p style="white-space: nowrap; text-align: center">
+                {{ form.hire_date_min.label }}
+                {{ form.hire_date_min(class='width_15') }}
+                {{ form.hire_date_max.label }}
+                {{ form.hire_date_max(class='width_15') }}
+            </p>
+            {% if form.hire_date_min.errors %}
+                {% for error in form.hire_date_min.errors %}
+                    <div class="error-msg">{{ error }}</div>
+                {% endfor %}
+            {% endif %}
+
+            {% if form.hire_date_max.errors %}
+                {% for error in form.hire_date_max.errors %}
+                    <div class="error-msg">{{ error }}</div>
+                {% endfor %}
+            {% endif %}
+            <p style="white-space: nowrap; text-align: center">
+                {{ form.min_salary.label }}
+                {{ form.min_salary(class='width_15') }}
+                {{ form.max_salary.label }}
+                {{ form.max_salary(class='width_15') }}
+            </p>
+            {% if form.min_salary.errors %}
+                {% for error in form.min_salary.errors %}
+                    <div class="error-msg">{{ error }}</div>
+                {% endfor %}
+            {% endif %}
+
+            {% if form.max_salary.errors %}
+                {% for error in form.max_salary.errors %}
+                    <div class="error-msg">{{ error }}</div>
+                {% endfor %}
+            {% endif %}
+            <div align="center">
+                <button class="pseudo" type="reset"><i class="el el-repeat"></i></button>
+                <button class="pseudo" type="submit"><i class="el el-ok"></i></button>
+            </div>
+        </div>
+    </form>
+{% endblock %}

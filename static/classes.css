@@ -1,0 +1,24 @@
+.width_15 {
+    width: 15ch
+}
+
+.width_20 {
+    width: 20ch
+}
+
+.width_30 {
+    width: 30ch
+}
+
+.form-field {
+    position: relative;
+}
+
+.error-msg {
+    margin: 10px 0;
+    padding: 10px;
+    border-radius: 3px 3px 3px 3px;
+    color: #D8000C;
+    background-color: #FFBABA;
+    text-align: center;
+}

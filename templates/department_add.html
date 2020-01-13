@@ -1,0 +1,43 @@
+{% extends 'base.html' %}
+{% block title %} Add department {% endblock %}
+{% block top %}
+    {% call macros.block_top('Add department', 'departments_filter') %}
+        <a href="{{ url_for('departments') }}" class="button error">Cancel</a>
+        <label for="accept" class="button success">Save</label>
+    {% endcall %}
+{% endblock %}
+{% block middle %}
+    <form action="{{ url_for('add_dept') }}" method="post">
+        <input id="accept" type="submit" style="visibility: hidden">
+        <div class="card" style=" padding: 0 2em; margin-bottom: 0">
+            <h1 style="text-align: center">New department:</h1>
+            <p style="white-space: nowrap; text-align: right">
+                {{ form.dept_name.label }}
+                {{ form.dept_name(class = 'width_30') }}
+            </p>
+            {% if form.dept_name.errors %}
+                {% for error in form.dept_name.errors %}
+                    <div class="error-msg">{{ error }}</div>
+                {% endfor %}
+            {% endif %}
+            <p style="white-space: nowrap; text-align: right">
+                {{ form.dept_head.label }}
+                {{ form.dept_head(class = 'width_30') }}
+            </p>
+            {% if form.dept_head.errors %}
+                {% for error in form.dept_head.errors %}
+                    <div class="error-msg">{{ error }}</div>
+                {% endfor %}
+            {% endif %}
+            <p style="white-space: nowrap; text-align: right">
+                {{ form.head_salary.label }}
+                {{ form.head_salary(class = 'width_15') }}
+            </p>
+                    {% if form.head_salary.errors %}
+                {% for error in form.head_salary.errors %}
+                    <div class="error-msg">{{ error }}</div>
+                {% endfor %}
+            {% endif %}
+        </div>
+    </form>
+{% endblock %}

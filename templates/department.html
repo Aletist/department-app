@@ -1,0 +1,84 @@
+{% extends 'base.html' %}
+
+{% block title %} Department {% endblock %}
+{% block top %}
+    {% call macros.block_top('Department', 'departments') %}
+        <label for="modal_edit" class="button">Edit <i class="el el-pencil"></i></label>
+    {% endcall %}
+    <div class="modal">
+        <input id="modal_edit" type="checkbox"/>
+        <label for="modal_edit" class="overlay"></label>
+        <form action="{{ url_for('department', name = dept['name']) }}" method="post">
+            <section>
+                <header>
+                    <h3>Edit department</h3>
+                    <label for="modal_edit" class="close">&times;</label>
+                </header>
+                <section style="width: 25em">
+                    <p>{{ form.dept_name.label }}</p>
+                    {{ form.dept_name }}
+                    {% if form.dept_name.errors %}
+                        {% for error in form.dept_name.errors %}
+                            <div class="error-msg">{{ error }}</div>
+                        {% endfor %}
+                    {% endif %}
+                    <p>{{ form.dept_head.label }}</p>
+                    {{ form.dept_head }}
+                    {% if form.dept_head.errors %}
+                        {% for error in form.dept_head.errors %}
+                            <div class="error-msg">{{ error }}</div>
+                        {% endfor %}
+                    {% endif %}
+                    <p>{{ form.head_salary.label }}</p>
+                    {{ form.head_salary }}
+                    {% if form.head_salary.errors %}
+                        {% for error in form.head_salary.errors %}
+                            <div class="error-msg">{{ error }}</div>
+                        {% endfor %}
+                    {% endif %}
+                </section>
+                <footer>
+                    <button class="success">Accept</button>
+                    <label for="modal_edit" class="button dangerous">
+                        Cancel
+                    </label>
+                </footer>
+            </section>
+        </form>
+    </div>
+{% endblock %}
+
+{% block middle %}
+    <div style="background-color: #eeeeee">
+        <h4>Department name: {{ dept['name'] }}</h4>
+        <h4>Department head: {{ dept['head'] }}</h4>
+    </div>
+{% endblock %}
+
+{% block bottom %}
+    <table>
+        <thead>
+        <tr>
+            <th>ID</th>
+            <th>First Name</th>
+            <th>Last Name</th>
+            <th>Salary</th>
+            <th>Birth date</th>
+            <th>Hire date</th>
+            <th></th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for employee in employees %}
+            {% call macros.employee_row(employee) %}
+                {% call macros.control_cell(employee['id'], 'id', 'employee') %}{% endcall %}
+            {% endcall %}
+            {% call macros.modal_delete(employee['id'], 'id','remove_employee', parent_id=dept['name']) %}
+                Are you sure you want to remove employee {{ employee['id'] }}, {{ employee['first_name'] }}
+                {{ employee['last_name'] }} from department?
+            {% endcall %}
+        {% endfor %}
+        </tbody>
+    </table>
+{% endblock %}
+
