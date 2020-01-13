@@ -1,5 +1,6 @@
 from flask_wtf import FlaskForm
 from wtforms import StringField, IntegerField, validators, SelectField
+from wtforms.fields.html5 import DateField
 from wtforms.validators import NumberRange, NoneOf
 from wtforms.widgets import html5
 
@@ -36,10 +37,44 @@ class DepartmentsFilterForm(FlaskForm):
         result = super(DepartmentsFilterForm, self).validate()
         if self.min_salary.data is not None and self.max_salary.data is not None:
             if self.min_salary.data > self.max_salary.data:
-                self.min_salary.errors.append('Min salary should be less or equal than max salary')
+                self.min_salary.errors.append('Min filter for salary can`t be more than max filter')
                 result = False
+
         if self.min_employees.data is not None and self.max_employees.data is not None:
             if self.min_employees.data > self.max_employees.data:
-                self.min_employees.errors.append('Min number should be less or equal than max number of employees')
+                self.min_employees.errors.append('Min filter for employee count can`t be more than max filter')
                 result = False
+        return result
+
+
+class EmployeeFilterForm(FlaskForm):
+    birth_date_min = DateField('Birth date from', validators=[validators.Optional()] )
+    birth_date_max = DateField('to', validators=[validators.Optional()])
+    hire_date_min = DateField('Hire date from', validators=[validators.Optional()])
+    hire_date_max = DateField('to', validators=[validators.Optional()])
+    min_salary = IntegerField('Average salary from:', widget=html5.NumberInput(),
+                              validators=[validators.Optional(),
+                                          NumberRange(min=0, message='People don`t pay to work')])
+    max_salary = IntegerField('to:', widget=html5.NumberInput(),
+                              validators=[validators.Optional(),
+                                          NumberRange(min=0, message='People don`t pay to work')])
+
+    def validate_on_submit(self):
+        result = True
+        result = super(EmployeeFilterForm, self).validate()
+        if self.birth_date_min.data is not None and self.birth_date_max.data is not None:
+            if self.birth_date_min.data > self.birth_date_max.data:
+                self.birth_date_min.errors.append('Min filter for birth date can`t be more than max filter')
+                result = False
+
+        if self.hire_date_min.data is not None and self.hire_date_max.data is not None:
+            if self.hire_date_min.data > self.hire_date_max.data:
+                self.hire_date_min.errors.append('Min filter for birth date can`t be more than max filter')
+                result = False
+
+        if self.min_salary.data is not None and self.max_salary.data is not None:
+            if self.min_salary.data > self.max_salary.data:
+                self.min_salary.errors.append('Min filter for salary can`t be more than max filter')
+                result = False
+
         return result

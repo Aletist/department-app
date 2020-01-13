@@ -1,7 +1,7 @@
 import requests
 from flask import Flask, url_for, redirect, render_template, request
 
-from forms import DepartmentsFilterForm, DepartmentForm
+from forms import DepartmentsFilterForm, DepartmentForm, EmployeeFilterForm
 
 app = Flask(__name__, template_folder='../templates', static_folder='../static')
 app.config['WTF_CSRF_ENABLED'] = False
@@ -120,7 +120,6 @@ def department(name):
         else (format_emplyee(head['id'],
                              head["first_name"], head["last_name"])
               )
-
     candidates_list = [(person['id'],
                         format_emplyee(person['id'],
                                        person['first_name'],
@@ -134,7 +133,6 @@ def department(name):
         candidates_list.insert(0, current_head)
 
     form.dept_head.choices = candidates_list
-
     if form.validate_on_submit():
         args_string = 'departments/{}?name={}'.format(name, form.dept_name.data)
         args_string += '&head_id={}'.format(form.dept_head.data)
@@ -166,9 +164,34 @@ def employees():
 
 @app.route('/employees/filter', methods=['GET', 'POST'])
 def employees_filter():
-    api_request = requests.get(api_url + 'employees')
+    form = EmployeeFilterForm()
+    request_args = ''
+
+    if form.validate_on_submit():
+        request_args = '?'
+        print(form.birth_date_min.data,
+              form.birth_date_max.data,
+              form.hire_date_min.data,
+              form.hire_date_max.data)
+
+        if form.birth_date_min.data is not None:
+            request_args += '&min_birth={}'.format(form.birth_date_min.data)
+        if form.birth_date_max.data is not None:
+            request_args += '&max_birth={}'.format(form.birth_date_max.data)
+
+        if form.birth_date_min.data is not None:
+            request_args += '&min_hire={}'.format(form.birth_date_min.data)
+        if form.birth_date_max.data is not None:
+            request_args += '&max_hire={}'.format(form.birth_date_max.data)
+
+        if form.min_salary.data is not None:
+            request_args += '&min_salary={}'.format(form.min_salary.data)
+        if form.max_salary.data is not None:
+            request_args += '&max_salary={}'.format(form.max_salary.data)
+
+    api_request = requests.get(api_url + 'employees' + request_args)
     employees = api_request.json()
-    return render_template('employees_filter.html', employees=employees)
+    return render_template('employees_filter.html', employees=employees, form=form)
 
 
 @app.route('/departments/remove/<id>')
