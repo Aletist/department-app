@@ -1,9 +1,9 @@
 from flask import jsonify, request
-from flask_restful import Resource, reqparse, inputs, abort
+from flask_restful import Resource, reqparse, abort
 from sqlalchemy import func, cast, Integer
 
 from models.models import Employee, Department, serialize_dept, Head
-from service.commons import db
+from setup import db
 
 
 class Dept(Resource):

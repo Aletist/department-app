@@ -1,5 +1,5 @@
 from datetime import date
-from service.commons import db
+from setup import db
 
 
 def serialize_dept(list):

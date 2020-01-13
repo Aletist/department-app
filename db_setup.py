@@ -3,27 +3,17 @@ import pymysql
 from flask_script import Manager, Command
 from flask_migrate import Migrate, MigrateCommand
 from models.models import Employee, Department, Head
-from service.commons import app, db
+from setup import app, db
+from config import DatabaseConfig
 
 
 class Connect(Command):
     def run(self):
-        # Create a connection object
-        databaseServerIP = "127.0.0.1"  # IP address of the MySQL database server
-        databaseUserName = "root"  # User name of the database server
-        databaseUserPassword = ""  # Password for the database user
-        newDatabaseName = "dept_db"  # Name of the database that is to be created
-        charSet = "utf8mb4"  # Character set
-        cursorType = pymysql.cursors.DictCursor
-        connectionInstance = pymysql.connect(host=databaseServerIP, user=databaseUserName,
-                                             password=databaseUserPassword,
-                                             charset=charSet, cursorclass=cursorType)
-
         try:
             # Create a cursor object
-            cursorInsatnce = connectionInstance.cursor()
+            cursorInsatnce = DatabaseConfig.connectionInstance.cursor()
             # SQL Statement to create a database
-            sqlStatement = "CREATE DATABASE " + newDatabaseName
+            sqlStatement = "CREATE DATABASE " + DatabaseConfig.newDatabaseName
             # Execute the create database SQL statment through the cursor instance
             cursorInsatnce.execute(sqlStatement)
             # SQL query string
@@ -39,7 +29,7 @@ class Connect(Command):
         except Exception as e:
             print("Exeception occured:{}".format(e))
         finally:
-            connectionInstance.close()
+            DatabaseConfig.connectionInstance.close()
 
 
 class Seed(Command):
@@ -143,7 +133,6 @@ manager.add_command('seed', Seed())
 
 def main():
     manager.run()
-
 
 if __name__ == '__main__':
     main()

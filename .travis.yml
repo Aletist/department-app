@@ -13,11 +13,7 @@ install:
 
 script:
 #  - pylint **/*.py
-  - python db_setup.py connect
-  - python db_setup.py db init
-  - python db_setup.py db migrate
-  - python db_setup.py db upgrade
-  - python db_setup.py seed
+  - python setup.py
   - coverage run --omit '*/lib/*' -m unittest discover
 
 after_success:

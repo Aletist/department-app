@@ -1,4 +1,5 @@
 from datetime import datetime
+from config import ClientConfig
 
 import requests
 from flask import Flask, url_for, redirect, render_template, request
@@ -6,7 +7,7 @@ from flask import Flask, url_for, redirect, render_template, request
 from forms import DepartmentsFilterForm, DepartmentForm, EmployeeFilterForm, EmployeeAddForm, EmployeeEditForm
 
 app = Flask(__name__, template_folder='../templates', static_folder='../static')
-app.config['WTF_CSRF_ENABLED'] = False
+app.config.from_object(ClientConfig)
 api_url = 'http://api.department-app/'
 
 
