@@ -205,9 +205,10 @@ def employee(id):
     return render_template('employee.html', employee=employee, departments=depts)
 
 
-@app.route('/employees/<id>/delete')
+@app.route('/employees/<id>/delete', methods=['POST'])
 def del_employee(id):
-    return redirect(url_for('department'))
+    api_request = requests.delete(api_url + 'employees/' + id)
+    return redirect(url_for('employees'))
 
 
 @app.route('/employees/edit')
