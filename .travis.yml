@@ -12,14 +12,14 @@ install:
   - sudo apt-get update
   - sudo apt-get install nginx
 
-  - pip install -r requirements.txt
-  - pip install pylint
-  - pip install coveralls
+  - sudo pip install -r requirements.txt
+  - sudo pip install pylint
+  - sudo pip install coveralls
 
 script:
 #  - pylint **/*.py
-  - sudo /home/travis/virtualenv/python3.7/bin/python setup.py
-  - coverage run --omit '*/lib/*' -m unittest discover
+  - sudo python setup.py
+  - sudo coverage run --omit '*/lib/*' -m unittest discover
 
 after_success:
-  - coveralls
+  - sudo coveralls
