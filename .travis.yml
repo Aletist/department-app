@@ -17,7 +17,7 @@ install:
 
 script:
 #  - pylint **/*.py
-  - sudo /home/travis/virtualenv/python3.7.1/bin/python3.7 setup.py
+  - sudo /home/travis/virtualenv/python3.7/bin/python setup.py
   - coverage run --omit '*/lib/*' -m unittest discover
 
 after_success:
