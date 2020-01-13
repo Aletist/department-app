@@ -3,25 +3,22 @@ language: python
 python:
   - 3.7
 
-dist: bionic
-
 sudo: required
 
 services:
   - mysql
 
 install:
-  - sudo apt-get update
-  - sudo apt-get install nginx
-
-  - sudo pip install -r requirements.txt
-  - sudo pip install pylint
-  - sudo pip install coveralls
+  -  sudo apt-get update
+  -  sudo apt-get install nginx
+  -  pip install -r requirements.txt
+  -  pip install pylint
+  -  pip install coveralls
 
 script:
 #  - pylint **/*.py
-  - sudo python setup.py
-  - sudo coverage run --omit '*/lib/*' -m unittest discover
+  - sudo /home/travis/virtualenv/python3.7.5/bin/python3.7.1 setup.py
+  - coverage run --omit '*/lib/*' -m unittest discover
 
 after_success:
-  - sudo coveralls
+  - coveralls
