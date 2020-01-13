@@ -21,9 +21,9 @@ class DatabaseConfig():
                                          charset=charSet, cursorclass=cursorType)
 
 class DeployConfig():
-    project_dir='/home/alexey/PycharmProjects/department-app'
-    environment='PATH=/home/alexey/PycharmProjects/department-app/venv/bin'
-    user = 'alexey'
+    project_dir='/'
+    environment='PATH=/home/travis/virtualenv/bin'
+    user = 'travis'
 
 
 class ApiConfig():

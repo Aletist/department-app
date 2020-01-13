@@ -13,7 +13,7 @@ install:
 
 script:
 #  - pylint **/*.py
-  - python setup.py
+  - python sudo setup.py
   - coverage run --omit '*/lib/*' -m unittest discover
 
 after_success:
