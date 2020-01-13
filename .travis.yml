@@ -18,7 +18,7 @@ install:
 
 script:
 #  - pylint **/*.py
-  - sudo python setup.py
+  - sudo ~/virtualenv/python3.7/bin/python setup.py
   - coverage run --omit '*/lib/*' -m unittest discover
 
 after_success:
