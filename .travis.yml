@@ -13,7 +13,7 @@ install:
 
 script:
 #  - pylint **/*.py
-  - python sudo setup.py
+  - sudo /home/travis/virtualenv/bin/python setup.py
   - coverage run --omit '*/lib/*' -m unittest discover
 
 after_success:

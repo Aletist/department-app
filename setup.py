@@ -56,7 +56,12 @@ if __name__ == '__main__':
     subprocess.check_call(['python3', 'db_setup.py', 'db', 'init'])
     subprocess.check_call(['python3', 'db_setup.py', 'db', 'migrate'])
     subprocess.check_call(['python3', 'db_setup.py', 'db', 'upgrade'])
-    subprocess.check_call(['python3', 'db_setup.py', 'seed'])
+
+    if (DeployConfig.dev):
+        subprocess.check_call(['python3', 'db_setup.py', 'seed'])
+        with open('/etc/hosts') as file:
+            file.write('127.0.0.1\t{}\n'.format(ApiConfig.host))
+            file.write('127.0.0.1\t{}\n'.format(WebConfig.host))
 
     gunicorn_conf_www = gunicorn_conf_gen(
         WebConfig.app_description,

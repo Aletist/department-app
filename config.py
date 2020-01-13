@@ -24,6 +24,7 @@ class DeployConfig():
     project_dir='/'
     environment='PATH=/home/travis/virtualenv/bin'
     user = 'travis'
+    dev = True
 
 
 class ApiConfig():
