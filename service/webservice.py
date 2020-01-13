@@ -1,5 +1,5 @@
 from flask_restful import Api
-from service.commons import app
+from setup import app
 from rest.resources import *
 
 api = Api(app)
