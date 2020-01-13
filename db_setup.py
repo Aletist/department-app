@@ -1,5 +1,4 @@
 from datetime import date
-import pymysql
 from flask_script import Manager, Command
 from flask_migrate import Migrate, MigrateCommand
 from models.models import Employee, Department, Head
